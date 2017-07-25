@@ -100,18 +100,22 @@ void lv2_generate_ttl(const char* const basename)
 
     {
         std::cout << "Writing manifest.ttl..."; std::cout.flush();
-        std::fstream manifestFile("manifest.ttl", std::ios::out);
+        std::fstream manifestFile("manifest.ttl", std::ios::app);
 
         String manifestString;
-        manifestString += "@prefix lv2:  <" LV2_CORE_PREFIX "> .\n";
-        manifestString += "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n";
+        if (manifestFile.tellp() <= 3)
+        {
+            manifestFile.seekp(0);
+            manifestString += "@prefix lv2:  <" LV2_CORE_PREFIX "> .\n";
+            manifestString += "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n";
 #if DISTRHO_PLUGIN_WANT_PROGRAMS
-        manifestString += "@prefix pset: <" LV2_PRESETS_PREFIX "> .\n";
+            manifestString += "@prefix pset: <" LV2_PRESETS_PREFIX "> .\n";
 #endif
 #if DISTRHO_PLUGIN_HAS_UI
-        manifestString += "@prefix ui:   <" LV2_UI_PREFIX "> .\n";
+            manifestString += "@prefix ui:   <" LV2_UI_PREFIX "> .\n";
 #endif
-        manifestString += "\n";
+            manifestString += "\n\n";
+        }
 
         manifestString += "<" DISTRHO_PLUGIN_URI ">\n";
         manifestString += "    a lv2:Plugin ;\n";
