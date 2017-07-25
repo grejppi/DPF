@@ -408,9 +408,9 @@ void lv2_generate_ttl(const char* const basename)
                         designated = true;
                         pluginString += "        lv2:name \"Enabled\" ;\n";
                         pluginString += "        lv2:symbol \"lv2_enabled\" ;\n";
-                        pluginString += "        lv2:default 1 ;\n";
-                        pluginString += "        lv2:minimum 0 ;\n";
-                        pluginString += "        lv2:maximum 1 ;\n";
+                        pluginString += "        lv2:default " + String(1.f) + " ;\n";
+                        pluginString += "        lv2:minimum " + String(0.f) + " ;\n";
+                        pluginString += "        lv2:maximum " + String(1.f) + " ;\n";
                         pluginString += "        lv2:portProperty lv2:toggled , lv2:integer ;\n";
                         pluginString += "        lv2:designation lv2:enabled ;\n";
                         break;
@@ -435,20 +435,10 @@ void lv2_generate_ttl(const char* const basename)
                 {
                     const ParameterRanges& ranges(plugin.getParameterRanges(i));
 
-                    if (plugin.getParameterHints(i) & kParameterIsInteger)
-                    {
-                        if (! plugin.isParameterOutput(i))
-                            pluginString += "        lv2:default " + String(int(plugin.getParameterValue(i))) + " ;\n";
-                        pluginString += "        lv2:minimum " + String(int(ranges.min)) + " ;\n";
-                        pluginString += "        lv2:maximum " + String(int(ranges.max)) + " ;\n";
-                    }
-                    else
-                    {
-                        if (! plugin.isParameterOutput(i))
-                            pluginString += "        lv2:default " + String(plugin.getParameterValue(i)) + " ;\n";
-                        pluginString += "        lv2:minimum " + String(ranges.min) + " ;\n";
-                        pluginString += "        lv2:maximum " + String(ranges.max) + " ;\n";
-                    }
+                    if (! plugin.isParameterOutput(i))
+                        pluginString += "        lv2:default " + String(plugin.getParameterValue(i)) + " ;\n";
+                    pluginString += "        lv2:minimum " + String(ranges.min) + " ;\n";
+                    pluginString += "        lv2:maximum " + String(ranges.max) + " ;\n";
                 }
 
                 // unit
@@ -708,10 +698,7 @@ void lv2_generate_ttl(const char* const basename)
 
                 presetString += "        lv2:symbol \"" + plugin.getParameterSymbol(j) + "\" ;\n";
 
-                if (plugin.getParameterHints(j) & kParameterIsInteger)
-                    presetString += "        pset:value " + String(int(plugin.getParameterValue(j))) + " ;\n";
-                else
-                    presetString += "        pset:value " + String(plugin.getParameterValue(j)) + " ;\n";
+                presetString += "        pset:value " + String(plugin.getParameterValue(j)) + " ;\n";
 
                 if (j+1 == numParameters || plugin.isParameterOutput(j+1))
                     presetString += "    ] .\n\n";
