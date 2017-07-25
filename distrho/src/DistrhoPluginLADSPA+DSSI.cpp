@@ -191,6 +191,7 @@ public:
         }
 
 #if DISTRHO_PLUGIN_WANT_MIDI_INPUT
+# ifdef DISTRHO_PLUGIN_TARGET_DSSI
         // Get MIDI Events
         uint32_t  midiEventCount = 0;
         MidiEvent midiEvents[eventCount];
@@ -264,6 +265,9 @@ public:
         }
 
         fPlugin.run(fPortAudioIns, fPortAudioOuts, sampleCount, midiEvents, midiEventCount);
+# else
+        fPlugin.run(fPortAudioIns, fPortAudioOuts, sampleCount, nullptr, 0);
+# endif
 #else
         fPlugin.run(fPortAudioIns, fPortAudioOuts, sampleCount);
 #endif
