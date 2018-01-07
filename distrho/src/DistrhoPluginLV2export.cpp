@@ -116,6 +116,9 @@ void lv2_generate_ttl(const char* const basename)
         manifestString += "<" DISTRHO_PLUGIN_URI ">\n";
         manifestString += "    a lv2:Plugin ;\n";
         manifestString += "    lv2:binary <" + pluginDLL + "." DISTRHO_DLL_EXTENSION "> ;\n";
+#ifdef DISTRHO_PLUGIN_REPLACED_URI
+        manifestString += "    <http://purl.org/dc/terms/replaces> <" DISTRHO_PLUGIN_REPLACED_URI "> ;\n";
+#endif
 #if DISTRHO_PLUGIN_USES_MODGUI
         manifestString += "    rdfs:seeAlso <" + pluginTTL + "> ,\n";
         manifestString += "                 <modgui.ttl> .\n";
