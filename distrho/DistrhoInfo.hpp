@@ -484,6 +484,11 @@ START_NAMESPACE_DISTRHO
 #define DISTRHO_PLUGIN_URI "urn:distrho:name"
 
 /**
+   The URI of the plugin replaced by this plugin when exporting in LV2 format.
+*/
+#define DISTRHO_PLUGIN_REPLACED_URI "urn:distrho:oldname"
+
+/**
    Wherever the plugin has a custom %UI.
    @see DISTRHO_UI_USE_NANOVG
    @see UI
